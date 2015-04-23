@@ -34,6 +34,7 @@
 #include <grpc/support/alloc.h>
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <grpc/support/port_platform.h>
 
 void *gpr_malloc(size_t size) {
@@ -49,6 +50,7 @@ void gpr_free(void *p) { free(p); }
 void *gpr_realloc(void *p, size_t size) {
   p = realloc(p, size);
   if (!p) {
+    printf("Failed re-allocating %p to size %lu\n", p, (unsigned long) size);
     abort();
   }
   return p;

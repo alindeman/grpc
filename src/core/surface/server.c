@@ -35,6 +35,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "src/core/channel/census_filter.h"
 #include "src/core/channel/channel_args.h"
@@ -245,7 +246,9 @@ static void requested_call_array_destroy(requested_call_array *array) {
 static requested_call *requested_call_array_add(requested_call_array *array) {
   requested_call *rc;
   if (array->count == array->capacity) {
+    size_t prevsize = array->capacity;
     array->capacity = GPR_MAX(array->capacity + 8, array->capacity * 2);
+    printf("Reallocating array->calls from capacity %lu to %lu\n", (unsigned long) prevsize, (unsigned long) array->capacity);
     array->calls =
         gpr_realloc(array->calls, sizeof(requested_call) * array->capacity);
   }
